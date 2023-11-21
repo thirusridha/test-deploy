@@ -154,7 +154,7 @@ public class AuthenticationController {
 		Optional<User> str = empDao.findByUsername(emp.getUsername());
 		HashMap<String, Object> map = new HashMap<>();
 		System.out.println(str);
-		if (!str.isEmpty()) {
+		if (str.isPresent()) {
 			HashMap<String, Object> registerObj = new HashMap<>();
 			registerObj.put("firstName", str.get().getFirstName());
 			registerObj.put("lastName", str.get().getLastName());
@@ -172,7 +172,7 @@ public class AuthenticationController {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Optional<User> dbData = empDao.findByUsername(request.getUsername());
 		HashMap<String, Object> map = new HashMap<>();
-		if (!dbData.isEmpty()) {
+		if (dbData.isPresent()) {
 			boolean pswdCheck = encoder.matches(request.getPassword(), dbData.get().getPassword());
 			if (pswdCheck) {
 				AuthenticationResponse token = authenticationService.authenticate(request);
